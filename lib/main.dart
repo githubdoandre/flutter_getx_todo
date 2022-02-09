@@ -38,30 +38,24 @@ class HomePage extends StatelessWidget {
         title: Obx(
           () {
             return Text(
-              controller.todos.length.toString(),
+              controller.status.value,
             );
           },
         ),
       ),
-      body: Obx(
-        () {
-          return ListView.builder(
-            itemCount: controller.todos.length,
-            itemBuilder: (c, i) => ListTile(
-              trailing: IconButton(
-                  onPressed: () => controller.remove(controller.todos[i]),
-                  icon: const Icon(Icons.delete)),
-              title: Text(
-                controller.todos[i].title.toString(),
-              ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () => controller.connect(),
+              child: const Text('Connect'),
             ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () => controller.add(
-          Todo(id: 1, title: 'todo ${controller.todos.length + 1}'),
+            TextButton(
+              onPressed: () => controller.disconnect(),
+              child: const Text('Disconnect'),
+            ),
+          ],
         ),
       ),
     );
