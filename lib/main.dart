@@ -35,13 +35,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Obx(
-          () {
-            return Text(
-              controller.status.value,
-            );
-          },
-        ),
+        title: const Text('Lime test'),
       ),
       body: Center(
         child: Column(
@@ -54,6 +48,21 @@ class HomePage extends StatelessWidget {
             TextButton(
               onPressed: () => controller.disconnect(),
               child: const Text('Disconnect'),
+            ),
+            TextButton(
+              onPressed: () => controller.sendCommand1(),
+              child: const Text('Send command'),
+            ),
+            TextButton(
+              onPressed: () => controller.sendCommand2(),
+              child: const Text('Send command 2'),
+            ),
+            Obx(
+              () {
+                return Text(
+                  controller.status.value,
+                );
+              },
             ),
           ],
         ),
