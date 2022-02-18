@@ -37,34 +37,36 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Lime test'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              onPressed: () => controller.connect(),
-              child: const Text('Connect'),
-            ),
-            TextButton(
-              onPressed: () => controller.disconnect(),
-              child: const Text('Disconnect'),
-            ),
-            TextButton(
-              onPressed: () => controller.sendCommand1(),
-              child: const Text('Send command'),
-            ),
-            TextButton(
-              onPressed: () => controller.sendCommand2(),
-              child: const Text('Send command 2'),
-            ),
-            Obx(
-              () {
-                return Text(
-                  controller.status.value,
-                );
-              },
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                onPressed: () => controller.connect(),
+                child: const Text('Connect'),
+              ),
+              TextButton(
+                onPressed: () => controller.disconnect(),
+                child: const Text('Disconnect'),
+              ),
+              TextButton(
+                onPressed: () => controller.sendCommand1(),
+                child: const Text('Send command'),
+              ),
+              TextButton(
+                onPressed: () => controller.sendCommand2(),
+                child: const Text('Send command 2'),
+              ),
+              Obx(
+                () {
+                  return Text(
+                    controller.status.value,
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
