@@ -8,7 +8,7 @@ class SDKClient extends lime.ClientChannel {
   final List<Map<String, dynamic>> _commandResolves = [];
 
   connect() async {
-    await open();
+    await open('wss://contrato-test-msqz9.hmg-ws.msging.net');
 
     final keyAuthentication = lime.KeyAuthentication();
     keyAuthentication.key = 'eERTalhFc3gzSkgxc0hXdUNGeTM=';

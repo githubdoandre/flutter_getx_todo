@@ -8,8 +8,7 @@ import 'package:lime/lime.dart' as lime;
 class TodoController extends GetxController {
   var status = "".obs;
 
-  final sdkClient = SDKClient(
-      lime.TCPTransport(uri: 'wss://contrato-test-msqz9.hmg-ws.msging.net'));
+  final sdkClient = SDKClient(lime.TCPTransport());
 
   connect() {
     sdkClient.connect();
@@ -20,18 +19,20 @@ class TodoController extends GetxController {
   }
 
   sendCommand1() async {
-    final lime.Command c =
-        lime.Command(method: lime.CommandMethod.get, uri: '/account');
-    final ret = await sdkClient.sendCommand(c);
+    final ret = await sdkClient.sendCommand(
+      lime.Command(method: lime.CommandMethod.get, uri: '/account'),
+    );
     status.value = (jsonEncode(ret.resource));
   }
 
   sendCommand2() async {
-    final lime.Command c = lime.Command(
+    final ret = await sdkClient.sendCommand(
+      lime.Command(
         method: lime.CommandMethod.get,
         uri: '/tickets',
-        to: lime.Node.parse('postmaster@desk.msging.net'));
-    final ret = await sdkClient.sendCommand(c);
+        to: lime.Node.parse('postmaster@desk.msging.net'),
+      ),
+    );
     status.value = (jsonEncode(ret.resource));
   }
 }

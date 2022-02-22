@@ -91,7 +91,7 @@ packages:
   lime:
     dependency: "direct main"
     description:
-      path: "../lime"
+      path: "../lime-dart"
       relative: true
     source: path
     version: "0.0.1"

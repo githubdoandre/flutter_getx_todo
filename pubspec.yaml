@@ -30,7 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
   lime:
-    path: ../lime
+    path: ../lime-dart
 
 
   # The following adds the Cupertino Icons font to your application.
