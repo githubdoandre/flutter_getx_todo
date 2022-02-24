@@ -1,14 +1,38 @@
+import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_getx_todo/sdk/sdk_client.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get.dart';
 import 'package:lime/lime.dart' as lime;
+import 'package:blip_sdk/blip_sdk.dart' as blip_sdk;
 
 class TodoController extends GetxController {
   var status = "".obs;
+  late blip_sdk.Client sdkClient;
 
-  final sdkClient = SDKClient(lime.TCPTransport());
+  final sessionFinishedHandler = StreamController<lime.Session>();
+
+  TodoController() {
+    blip_sdk.ClientBuilder sdkClientBuilder =
+        blip_sdk.ClientBuilder(transport: lime.TCPTransport()).withApplication(
+      blip_sdk.Application(
+        hostName: 'contrato-test-msqz9.hmg-ws.msging.net',
+        identifier: 'andrehumano',
+        domain: 'msging.net',
+        instance: '!desk',
+        authentication:
+            lime.KeyAuthentication(key: 'eERTalhFc3gzSkgxc0hXdUNGeTM='),
+      ),
+    );
+
+    sdkClient = sdkClientBuilder.build();
+
+    final ret = sdkClient.addSessionFinishedHandlers(sessionFinishedHandler);
+
+    sessionFinishedHandler.stream.listen((session) {
+      print('event received successfully');
+    });
+  }
 
   connect() {
     sdkClient.connect();
@@ -19,10 +43,15 @@ class TodoController extends GetxController {
   }
 
   sendCommand1() async {
-    final ret = await sdkClient.sendCommand(
-      lime.Command(method: lime.CommandMethod.get, uri: '/account'),
-    );
-    status.value = (jsonEncode(ret.resource));
+    try {
+      final ret = await sdkClient.sendCommand(
+        lime.Command(method: lime.CommandMethod.get, uri: '/account'),
+      );
+
+      status.value = (jsonEncode(ret?.resource));
+    } on Error catch (e) {
+      print('erro ao enviar comando: $e');
+    }
   }
 
   sendCommand2() async {
@@ -33,6 +62,6 @@ class TodoController extends GetxController {
         to: lime.Node.parse('postmaster@desk.msging.net'),
       ),
     );
-    status.value = (jsonEncode(ret.resource));
+    status.value = (jsonEncode(ret?.resource));
   }
 }

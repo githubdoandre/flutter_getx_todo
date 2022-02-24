@@ -31,6 +31,8 @@ dependencies:
     sdk: flutter
   lime:
     path: ../lime-dart
+  blip_sdk:
+    path: ../blip-sdk-dart
 
 
   # The following adds the Cupertino Icons font to your application.
