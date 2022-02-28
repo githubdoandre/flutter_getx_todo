@@ -27,7 +27,7 @@ class TodoController extends GetxController {
 
     sdkClient = sdkClientBuilder.build();
 
-    final ret = sdkClient.addSessionFinishedHandlers(sessionFinishedHandler);
+    sdkClient.addSessionFinishedHandlers(sessionFinishedHandler);
 
     sessionFinishedHandler.stream.listen((session) {
       print('event received successfully');
@@ -48,7 +48,7 @@ class TodoController extends GetxController {
         lime.Command(method: lime.CommandMethod.get, uri: '/account'),
       );
 
-      status.value = (jsonEncode(ret?.resource));
+      status.value = (jsonEncode(ret.resource));
     } on Error catch (e) {
       print('erro ao enviar comando: $e');
     }
@@ -62,6 +62,6 @@ class TodoController extends GetxController {
         to: lime.Node.parse('postmaster@desk.msging.net'),
       ),
     );
-    status.value = (jsonEncode(ret?.resource));
+    status.value = (jsonEncode(ret.resource));
   }
 }
