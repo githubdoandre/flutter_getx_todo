@@ -7,6 +7,7 @@ import 'package:lime/lime.dart' as lime;
 import 'package:blip_sdk/blip_sdk.dart' as blip_sdk;
 
 class TodoController extends GetxController {
+  final state = lime.SessionState.isNew.toString().obs;
   final status = "".obs;
   late blip_sdk.Client sdkClient;
 
@@ -49,12 +50,16 @@ class TodoController extends GetxController {
     });
   }
 
-  connect() {
-    sdkClient.connect();
+  connect() async {
+    final result = await sdkClient.connect();
+
+    state.value = result.state.toString();
   }
 
-  disconnect() {
-    sdkClient.close();
+  disconnect() async {
+    final result = await sdkClient.close();
+
+    state.value = result?.state?.toString() ?? '';
   }
 
   sendCommand1() async {

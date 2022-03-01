@@ -72,6 +72,10 @@ class HomePage extends StatelessWidget {
               const SizedBox(
                 height: 100,
               ),
+              Obx(() => Text(controller.state.value)),
+              const SizedBox(
+                height: 100,
+              ),
               Obx(() => Text(controller.message.value)),
             ],
           ),
