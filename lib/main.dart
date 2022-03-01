@@ -58,6 +58,10 @@ class HomePage extends StatelessWidget {
                 onPressed: () => controller.sendCommand2(),
                 child: const Text('Send command 2'),
               ),
+              TextButton(
+                onPressed: () => controller.sendMessage(),
+                child: const Text('Send Message'),
+              ),
               Obx(
                 () {
                   return Text(
@@ -65,6 +69,10 @@ class HomePage extends StatelessWidget {
                   );
                 },
               ),
+              const SizedBox(
+                height: 100,
+              ),
+              Obx(() => Text(controller.message.value)),
             ],
           ),
         ),
