@@ -1,24 +1,23 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:blip_sdk/blip_sdk.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/get.dart';
-import 'package:lime/lime.dart' as lime;
-import 'package:blip_sdk/blip_sdk.dart' as blip_sdk;
+import 'package:get/get.dart' as getx;
 
 class TodoController extends GetxController {
-  final state = lime.SessionState.isNew.toString().obs;
+  final state = SessionState.isNew.toString().obs;
   final status = "".obs;
-  late blip_sdk.Client sdkClient;
+  late Client sdkClient;
 
   final message = ''.obs;
 
-  final sessionFinishedHandler = StreamController<lime.Session>();
-  final onMessageListener = StreamController<lime.Message>();
+  final sessionFinishedHandler = StreamController<Session>();
+  final onMessageListener = StreamController<Message>();
   void Function()? onRemoveMessageListener;
 
   TodoController() {
-    blip_sdk.ClientBuilder sdkClientBuilder = blip_sdk.ClientBuilder(transport: lime.TCPTransport())
+    ClientBuilder sdkClientBuilder = ClientBuilder(transport: WebSocketTransport())
         .withIdentifier('leonardo.gabriel%40take.net')
         .withEcho(false)
         .withNotifyConsumed(false)
@@ -65,7 +64,7 @@ class TodoController extends GetxController {
   sendCommand1() async {
     try {
       final ret = await sdkClient.sendCommand(
-        lime.Command(method: lime.CommandMethod.get, uri: '/account'),
+        Command(method: CommandMethod.get, uri: '/account'),
       );
 
       status.value = (jsonEncode(ret.resource));
@@ -76,18 +75,18 @@ class TodoController extends GetxController {
 
   sendCommand2() async {
     final ret = await sdkClient.sendCommand(
-      lime.Command(
-        method: lime.CommandMethod.get,
+      Command(
+        method: CommandMethod.get,
         uri: '/tickets',
-        to: lime.Node.parse('postmaster@desk.msging.net'),
+        to: Node.parse('postmaster@desk.msging.net'),
       ),
     );
     status.value = (jsonEncode(ret.resource));
   }
 
   sendMessage() {
-    sdkClient.sendMessage(lime.Message(
-      to: lime.Node.parse('9c7cf250-6a56-42ee-94df-017f4583c958@desk.msging.net/Lime'),
+    sdkClient.sendMessage(Message(
+      to: Node.parse('9c7cf250-6a56-42ee-94df-017f4583c958@desk.msging.net/sdk'),
       type: 'text/plain',
       content: "Hello! This is a message sent using our new Dart SDK!",
     ));
